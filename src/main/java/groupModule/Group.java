@@ -2,27 +2,26 @@ package groupModule;
 
 public class Group {
 
-    private double groupNumber;
-    private double avhMark;
+    private String id;
+    private int groupNumber;
 
-    public Group(double groupNumber, double avhMark) {
-        this.groupNumber = groupNumber;
-        this.avhMark = avhMark;
+    public Group(int groupNumber){
+        this.groupNumber=groupNumber;
     }
 
-    public double getGroupNumber() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getGroupNumber() {
         return groupNumber;
     }
 
-    public void setGroupNumber(double groupNumber) {
+    public void setGroupNumber(int groupNumber) {
         this.groupNumber = groupNumber;
-    }
-
-    public double getAvhMark() {
-        return avhMark;
-    }
-
-    public void setAvhMark(double avhMark) {
-        this.avhMark = avhMark;
     }
 }

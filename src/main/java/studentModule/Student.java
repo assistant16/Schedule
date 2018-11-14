@@ -1,9 +1,13 @@
 package studentModule;
 
+import groupModule.Group;
+
 public class Student {
 
+    private String id;
     private String firstName;
     private String secondName;
+    private Group group;
 
     public Student(){
         super();
@@ -14,6 +18,15 @@ public class Student {
         this.firstName = firstName;
         this.secondName = secondName;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -27,11 +40,11 @@ public class Student {
         this.secondName = secondName;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "firstName='" + firstName + '\'' +
-                ", secondName='" + secondName + '\'' +
-                '}';
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

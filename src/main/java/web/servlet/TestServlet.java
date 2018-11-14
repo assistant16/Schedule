@@ -57,13 +57,16 @@ public class TestServlet extends HttpServlet {
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)	throws ServletException, IOException {
-        String firstName = req.getParameter("firstName");
-        String secondName = req.getParameter("secondName");
-        //System.out.print(String.format("First name is : %s , Second name is : %s ",firstName,secondName));
-        STUDENTS.add(new Student(firstName,secondName));
-        doGet(req,resp);
-    }
+
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp)	throws ServletException, IOException {
+//        String id = req.getParameter("id");
+//        String firstName = req.getParameter("firstName");
+//
+//        String secondName = req.getParameter("secondName");
+//        //System.out.print(String.format("First name is : %s , Second name is : %s ",firstName,secondName));
+//        STUDENTS.add(new Student(firstName,secondName,group));
+//        doGet(req,resp);
+//    }
 
 }
