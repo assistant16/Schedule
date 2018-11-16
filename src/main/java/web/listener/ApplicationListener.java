@@ -1,23 +1,23 @@
 package web.listener;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import groupModule.GroupRepository;
 import studentModule.Student;
 import studentModule.StudentReader;
-import studentModule.StudentRepository;
+import studentModule.StudentRepositoryMemory;
 import studentModule.StudentWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
 public class ApplicationListener implements ServletContextListener {
 
-    private StudentRepository studentRepository;
+    private StudentRepositoryMemory studentRepositoryMemory;
     private GroupRepository groupRepository;
 
     @Override
@@ -27,8 +27,9 @@ public class ApplicationListener implements ServletContextListener {
             ServletContext servletContext = servletContextEvent.getServletContext();
             String studentPath = properties.getProperty("student.file.path");
             List<Student> students = new StudentReader(studentPath).read();
-            this.studentRepository = new StudentRepository(students);
-           servletContext.setAttribute("studentRepository",studentRepository);
+            this.studentRepositoryMemory = new StudentRepositoryMemory(students);
+            servletContext.setAttribute("studentRepositoryMemory",studentRepositoryMemory);
+            servletContext.setAttribute("objectMapper",new ObjectMapper());
 
         } catch (IOException e) {
             throw new RuntimeException("Can't read students",e);
@@ -41,7 +42,7 @@ public class ApplicationListener implements ServletContextListener {
         try{
             ServletContext servletContext = servletContextEvent.getServletContext();
             String studentPath = properties.getProperty("student.file.path");
-            List<Student> students = studentRepository.findAll();
+            List<Student> students = studentRepositoryMemory.findAll();
             new StudentWriter(studentPath).write(students);
         } catch (IOException e) {
             System.out.println("can't save file");
@@ -52,7 +53,7 @@ public class ApplicationListener implements ServletContextListener {
     public Properties getCurrProperties() {
         Properties properties = new Properties();
         try{
-            try (FileInputStream fileInputStream = new FileInputStream("C://blekb//Schedule//src//main//resources//config.properties")) {
+            try (FileInputStream fileInputStream = new FileInputStream("C:/Users/blekb/Schedule/src/main/resources/config.properties")) {
                 properties.load(fileInputStream);
             }
         } catch (IOException e) {

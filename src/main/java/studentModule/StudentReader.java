@@ -27,7 +27,7 @@ public class StudentReader {
                 Student student = new Student();
                 student.setId(data[0]);
                 student.setFirstName(data[1]);
-                student.setSecondName(data[2]);
+                student.setLastName(data[2]);
                 students.add(student);
             }
         } finally {

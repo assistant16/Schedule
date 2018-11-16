@@ -20,7 +20,7 @@ public class StudentWriter {
                     String line = String.format("%s;%s;%s",
                             st.getId(),
                             st.getFirstName(),
-                            st.getSecondName());
+                            st.getLastName());
                     writer.write(line);
                     writer.newLine();
                 }

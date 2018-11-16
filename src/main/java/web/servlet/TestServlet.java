@@ -31,14 +31,9 @@ public class TestServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        req.setAttribute("studentCount", STUDENTS.size());
-        req.setAttribute("students", STUDENTS);
-
-        //req.setAttribute("firstName", STUDENTS.get(STUDENTS.size()-1));
-
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/test.jsp");
         dispatcher.forward(req, resp);
-
+    }
 
 
 
@@ -55,7 +50,7 @@ public class TestServlet extends HttpServlet {
 		pW.close();
 		*/
 
-    }
+
 
 
 //    @Override

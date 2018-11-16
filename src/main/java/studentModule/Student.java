@@ -6,17 +6,18 @@ public class Student {
 
     private String id;
     private String firstName;
-    private String secondName;
+    private String lastName;
+    private double avgMark;
     private Group group;
 
-    public Student(){
-        super();
-    }
 
-    public Student(String firstName, String secondName) {
+
+    public Student(String firstName, String secondName,Group group) {
         super();
         this.firstName = firstName;
-        this.secondName = secondName;
+        this.lastName = secondName;
+        this.avgMark=0;
+        this.group = group;
     }
 
     public String getId() {
@@ -33,18 +34,22 @@ public class Student {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    public String getSecondName() {
-        return secondName;
+    public String getLastName() {
+        return lastName;
     }
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
-
     public Group getGroup() {
         return group;
     }
-
     public void setGroup(Group group) {
         this.group = group;
+    }
+    public double getAvgMark() {
+        return avgMark;
+    }
+    public void setAvgMark(double avgMark) {
+        this.avgMark = avgMark;
     }
 }

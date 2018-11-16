@@ -4,23 +4,28 @@
 
 <web-app>
 
+    <context-param>
+    <param-name>student.file.path</param-name>
+    <param-value>C:/Users/blekb/Schedule/src/main/resources/student.csv</param-value>
+    </context-param>
+
     <listener>
         <listener-class>web.listener.ApplicationListener</listener-class>
     </listener>
 
-    <!--<servlet>-->
-        <!--<servlet-name>TestServlet</servlet-name>-->
-        <!--<servlet-class>web.servlet.TestServlet</servlet-class>-->
-    <!--</servlet>-->
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>web.servlet.TestServlet</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>StudentServlet</servlet-name>
         <servlet-class>web.servlet.StudentServlet</servlet-class>
     </servlet>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>TestServlet</servlet-name>-->
-        <!--<url-pattern>/test</url-pattern>-->
-    <!--</servlet-mapping>-->
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StudentServlet</servlet-name>
         <url-pattern>/student</url-pattern>
