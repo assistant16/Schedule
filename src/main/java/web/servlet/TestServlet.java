@@ -20,14 +20,6 @@ public class TestServlet extends HttpServlet {
 
     private final static List<Student> STUDENTS = new ArrayList<Student>();
 
-    public static void main(String[] args) {
-        //Student students = new Student[0];
-        //for(Student students : )
-    }
-
-
-
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -49,9 +41,6 @@ public class TestServlet extends HttpServlet {
 		pW.print("</form>");
 		pW.close();
 		*/
-
-
-
 
 //    @Override
 //    protected void doPost(HttpServletRequest req, HttpServletResponse resp)	throws ServletException, IOException {

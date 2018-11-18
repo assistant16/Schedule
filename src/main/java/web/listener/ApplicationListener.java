@@ -1,13 +1,14 @@
 package web.listener;
 
-import Repository.Repository;
+
+import Repository.RepositoryDB;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import filter.GroupFilter;
 import filter.StudentFilter;
 import groupModule.Group;
 import groupModule.GroupRepository;
 import studentModule.Student;
-import studentModule.StudentReader;
+
 import studentModule.StudentRepositoryMemory;
 import studentModule.StudentSQLMapper;
 
@@ -25,8 +26,8 @@ import java.util.Properties;
 
 public class ApplicationListener implements ServletContextListener {
 
-    private Repository<Integer,Student, StudentFilter> studentRepository;
-    private Repository<String, Group, GroupFilter> groupRepository;
+    private RepositoryDB<Integer,Student, StudentFilter> studentRepository;
+    private RepositoryDB<String, Group, GroupFilter> groupRepository;
 
     private StudentRepositoryMemory studentRepositoryMemory;
     private GroupRepository groupRepositoryMemory;
@@ -35,7 +36,7 @@ public class ApplicationListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         DataSource dataSource = dataSource();
         ServletContext servletContext = servletContextEvent.getServletContext();
-        this.studentRepository = new Repository<Integer, Student, StudentFilter>(new StudentSQLMapper(),dataSource);
+        this.studentRepository = new RepositoryDB<Integer, Student, StudentFilter>(new StudentSQLMapper(),dataSource);
         servletContext.setAttribute("studentRepository",studentRepository);
 //            ServletContext servletContext = servletContextEvent.getServletContext();
 //            String studentPath = properties.getProperty("student.file.path");
@@ -43,7 +44,7 @@ public class ApplicationListener implements ServletContextListener {
 //            this.studentRepositoryMemory = new StudentRepositoryMemory(students);
 //            servletContext.setAttribute("studentRepositoryMemory",studentRepositoryMemory);
 
-            servletContext.setAttribute("objectMapper",new ObjectMapper());
+        servletContext.setAttribute("objectMapper",new ObjectMapper());
 
 
     }
