@@ -7,6 +7,7 @@ public class GroupFilter {
     public GroupFilter() {
         this.groupNumber = "";
         this.avg_mark = "";
+        //ew
     }
 
     public String getGroupNumber() {
