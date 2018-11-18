@@ -9,14 +9,14 @@ public class GroupRepository {
     public GroupRepository(List<Group> groups){
         if (groups != null){
             for (Group group: groups){
-                this.groups.put(group.getId(),group);
+                this.groups.put(group.getGroupNumber(),group);
             }
         }
     }
 
     public Group findGroupById(String id){
         for (Group group: groups.values()){
-            if (group.getId().equals(id)){
+            if (group.getGroupNumber().equals(id)){
                 return group;
             }
         }
@@ -29,7 +29,7 @@ public class GroupRepository {
 
     public void create(Group group){
         String id = UUID.randomUUID().toString();
-        group.setId(id);
+        group.setGroupNumber(id);
         groups.put(id,group);
     }
 
@@ -38,7 +38,7 @@ public class GroupRepository {
     }
 
     public Group update(Group group){
-        groups.put(group.getId(),group);
+        groups.put(group.getGroupNumber(),group);
         return group;
     }
 

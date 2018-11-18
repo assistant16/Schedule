@@ -14,7 +14,7 @@ public class StudentRepositoryMemory implements StudentRepository{
     public StudentRepositoryMemory(List<Student> students){
         if(students != null){
             for (Student st : students){
-                this.STUDENTS.put(st.getId(),st);
+                this.STUDENTS.put(String.valueOf(st.getId()),st);
             }
         }
     }
@@ -31,13 +31,13 @@ public class StudentRepositoryMemory implements StudentRepository{
     @Override
     public Student create(Student student){
         String id = UUID.randomUUID().toString();
-        student.setId(id);
+        student.setId(Integer.parseInt(id));
         STUDENTS.put(id,student);
         return student;
     }
 
     public Student update(Student student){
-        STUDENTS.put(student.getId(),student);
+        STUDENTS.put(String.valueOf(student.getId()),student);
         return student;
     }
 

@@ -1,15 +1,23 @@
 package web.listener;
 
+import Repository.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import filter.GroupFilter;
+import filter.StudentFilter;
+import groupModule.Group;
 import groupModule.GroupRepository;
 import studentModule.Student;
 import studentModule.StudentReader;
 import studentModule.StudentRepositoryMemory;
-import studentModule.StudentWriter;
+import studentModule.StudentSQLMapper;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -17,37 +25,41 @@ import java.util.Properties;
 
 public class ApplicationListener implements ServletContextListener {
 
+    private Repository<Integer,Student, StudentFilter> studentRepository;
+    private Repository<String, Group, GroupFilter> groupRepository;
+
     private StudentRepositoryMemory studentRepositoryMemory;
-    private GroupRepository groupRepository;
+    private GroupRepository groupRepositoryMemory;
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        Properties properties = getCurrProperties();
-        try{
-            ServletContext servletContext = servletContextEvent.getServletContext();
-            String studentPath = properties.getProperty("student.file.path");
-            List<Student> students = new StudentReader(studentPath).read();
-            this.studentRepositoryMemory = new StudentRepositoryMemory(students);
-            servletContext.setAttribute("studentRepositoryMemory",studentRepositoryMemory);
+        DataSource dataSource = dataSource();
+        ServletContext servletContext = servletContextEvent.getServletContext();
+        this.studentRepository = new Repository<Integer, Student, StudentFilter>(new StudentSQLMapper(),dataSource);
+        servletContext.setAttribute("studentRepository",studentRepository);
+//            ServletContext servletContext = servletContextEvent.getServletContext();
+//            String studentPath = properties.getProperty("student.file.path");
+//            List<Student> students = new StudentReader(studentPath).read();
+//            this.studentRepositoryMemory = new StudentRepositoryMemory(students);
+//            servletContext.setAttribute("studentRepositoryMemory",studentRepositoryMemory);
+
             servletContext.setAttribute("objectMapper",new ObjectMapper());
 
-        } catch (IOException e) {
-            throw new RuntimeException("Can't read students",e);
-        }
+
     }
 
     @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        Properties properties = getCurrProperties();
-        try{
-            ServletContext servletContext = servletContextEvent.getServletContext();
-            String studentPath = properties.getProperty("student.file.path");
-            List<Student> students = studentRepositoryMemory.findAll();
-            new StudentWriter(studentPath).write(students);
-        } catch (IOException e) {
-            System.out.println("can't save file");
-        }
+    public void contextDestroyed(ServletContextEvent servletContextEvent) { }
 
+    private DataSource dataSource(){
+        try {
+            Context initialContext = new InitialContext();
+            Context eContext = (Context) initialContext.lookup("java:/comp/env");
+            DataSource dataSource = (DataSource) eContext.lookup("jdbc/schedule");
+            return dataSource;
+        } catch (NamingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Properties getCurrProperties() {

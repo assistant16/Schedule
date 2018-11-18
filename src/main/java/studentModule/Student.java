@@ -4,15 +4,21 @@ import groupModule.Group;
 
 public class Student {
 
-    private String id;
+    private int id;
     private String firstName;
     private String lastName;
     private double avgMark;
     private Group group;
 
+    public Student(){}
 
+    public Student(String firstName, String lastName) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
-    public Student(String firstName, String secondName,Group group) {
+    public Student(String firstName, String secondName, Group group) {
         super();
         this.firstName = firstName;
         this.lastName = secondName;
@@ -20,14 +26,12 @@ public class Student {
         this.group = group;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
-
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
-
     public String getFirstName() {
         return firstName;
     }
@@ -46,10 +50,10 @@ public class Student {
     public void setGroup(Group group) {
         this.group = group;
     }
-    public double getAvgMark() {
-        return avgMark;
+    public String  getAvgMark() {
+        return avgMark+"";
     }
-    public void setAvgMark(double avgMark) {
-        this.avgMark = avgMark;
+    public void setAvgMark(String avgMark) {
+        this.avgMark = Double.parseDouble(avgMark);
     }
 }
