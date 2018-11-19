@@ -8,6 +8,23 @@
     <!--<param-name>student.file.path</param-name>-->
     <!--<param-value>C:/Users/blekb/Schedule/src/main/resources/student.csv</param-value>-->
     <!--</context-param>-->
+    <filter>
+        <filter-name>LoggerFilter</filter-name>
+        <filter-class>filter.LoggerFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>filter.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>LoggerFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <listener>
         <listener-class>web.listener.ApplicationListener</listener-class>

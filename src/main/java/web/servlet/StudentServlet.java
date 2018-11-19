@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,13 +69,13 @@ public class StudentServlet extends HttpServlet{
         doGet(req,resp);
     }
 
-        private static String toJson(Student student){
-        String json = "{" +
-                "\"id\": \"" + student.getId() + "\", " +
-                "\"firstName\": \"" + student.getFirstName()+ "\", " +
-                "\"lastName\": \"" + student.getLastName()+ "\" " +
-       "}";
-        return json;
+    private static String toJson(Student student){
+    String json = "{" +
+            "\"id\": \"" + student.getId() + "\", " +
+            "\"firstName\": \"" + student.getFirstName()+ "\", " +
+            "\"lastName\": \"" + student.getLastName()+ "\" " +
+   "}";
+    return json;
     }
 
     private static String toJson(List<Student> students){
