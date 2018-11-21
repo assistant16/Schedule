@@ -43,7 +43,7 @@ public class StudentSQLMapper implements SQLMapper<Integer,Student, StudentFilte
                 SQLHelper.addLike(params, "ST.lastName", studentFilter.getSurname(), " AND ") +
                 SQLHelper.addLike(params, "GR.groupNumber", studentFilter.getGroupNumber(), " AND ") +
                 "1=1";
-
+//
         PreparedStatement statement = connection.prepareStatement(sql);
 
         SQLHelper.setParams(statement,params);
