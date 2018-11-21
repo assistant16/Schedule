@@ -13,6 +13,9 @@ public class UserRepository {
         this.dataSource = dataSource;
     }
 
+    public UserRepository() {
+    }
+
     public User LogIn(String name,String pass){
         try(Connection connection = dataSource.getConnection()){
             String sql = "SELECT "
@@ -26,6 +29,7 @@ public class UserRepository {
                 if (name.equals(rs.getString("username")) && pass.equals(rs.getString("pass"))){
                     User user = new User(name, pass, rs.getString("role"));
                     return user;
+
                 }
             }
         } catch (Throwable ex){

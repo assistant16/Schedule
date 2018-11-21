@@ -1,7 +1,7 @@
 package studentModule;
 
-import Repository.SQLHelper;
-import Repository.SQLMapper;
+import repository.SQLHelper;
+import repository.SQLMapper;
 import filter.StudentFilter;
 import groupModule.Group;
 
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentSQLMapper implements SQLMapper<Integer,Student, StudentFilter> {
+public class StudentSQLMapper implements SQLMapper<Integer, Student, StudentFilter> {
 
     @Override
     public Integer getKey(Student item) {
@@ -30,7 +30,6 @@ public class StudentSQLMapper implements SQLMapper<Integer,Student, StudentFilte
     public List<Student> getData(Connection connection, StudentFilter studentFilter) throws SQLException {
         List<Student> students = new ArrayList<>();
         List<String> params = new ArrayList<>();
-
         String sql = "SELECT ST.ID, " +
                 "ST.firstName, " +
                 "ST.lastName, " +
@@ -43,16 +42,16 @@ public class StudentSQLMapper implements SQLMapper<Integer,Student, StudentFilte
                 SQLHelper.addLike(params, "ST.lastName", studentFilter.getSurname(), " AND ") +
                 SQLHelper.addLike(params, "GR.groupNumber", studentFilter.getGroupNumber(), " AND ") +
                 "1=1";
-//
-        PreparedStatement statement = connection.prepareStatement(sql);
 
-        SQLHelper.setParams(statement,params);
+            PreparedStatement statement = connection.prepareStatement(sql);
 
-        ResultSet resultSet = statement.executeQuery();
-        while (resultSet.next()){
-            Student student = fillStudent(resultSet);
-            students.add(student);
-        }
+            SQLHelper.setParams(statement, params);
+
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                Student student = fillStudent(resultSet);
+                students.add(student);
+            }
 
         return students;
     }

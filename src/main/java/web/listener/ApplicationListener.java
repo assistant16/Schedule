@@ -1,7 +1,7 @@
 package web.listener;
 
 
-import Repository.RepositoryMain;
+import repository.RepositoryMain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import filter.GroupFilter;
 import filter.StudentFilter;
@@ -55,7 +55,7 @@ public class ApplicationListener implements ServletContextListener {
         try {
             Context initialContext = new InitialContext();
             Context eContext = (Context) initialContext.lookup("java:/comp/env");
-            DataSource dataSource = (DataSource) eContext.lookup("jdbc/Schedule");
+            DataSource dataSource = (DataSource) eContext.lookup("jdbc/schedule");
             return dataSource;
         } catch (NamingException e) {
             throw new RuntimeException(e);

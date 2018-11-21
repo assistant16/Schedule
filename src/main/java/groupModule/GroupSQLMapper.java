@@ -1,6 +1,6 @@
 package groupModule;
 
-import Repository.SQLMapper;
+import repository.SQLMapper;
 import filter.GroupFilter;
 
 import java.sql.Connection;

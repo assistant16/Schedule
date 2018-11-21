@@ -7,9 +7,9 @@
 </head>
 <body>
 <form name="LoginForm" action="/login" method="post">
-    <div class="form-group">
-        <input type="text" name="login">
-        <input type="text" name="password">
+    <div class="login-form">
+        <input type="text" name="name">
+        <input type="text" name="pass">
         <input type="submit" value="OK">
     </div>
 </form>

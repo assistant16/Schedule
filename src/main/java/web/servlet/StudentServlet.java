@@ -1,6 +1,6 @@
 package web.servlet;
 
-import Repository.Repository;
+import repository.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import filter.GroupFilter;
 import filter.StudentFilter;
@@ -16,9 +16,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
@@ -57,6 +54,8 @@ public class StudentServlet extends HttpServlet{
         if (sortByGroup != null)
             studentFilter.setGroupNumber(sortByGroup);
         req.setAttribute("students", this.studentRepository.findAll(studentFilter));
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/student.jsp");
+        dispatcher.forward(req, resp);
        // req.setAttribute("students", studentRepositoryMemory.findAll());
 
 //        if("".equals(req.getParameter("json"))) {
@@ -87,6 +86,9 @@ public class StudentServlet extends HttpServlet{
 ////        String groupNumber = req.getParameter("groupNumber");
 ////        Student student = new Student(firstName, secondName);
 ////        studentRepositoryMemory.create(student);
+//        resp.sendRedirect(req.getContextPath() + "/student");
+//
+        resp.sendRedirect(req.getContextPath() + "/student");
         doGet(req,resp);
     }
 
