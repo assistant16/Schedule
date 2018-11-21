@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RepositoryDB<C,T,F> implements Repository<C, T, F> {
+public class RepositoryMain<C,T,F> implements Repository<C, T, F> {
     SQLMapper<C, T, F> mapper;
     DataSource dataSource;
 
-    public RepositoryDB(SQLMapper<C, T, F> mapper, DataSource dataSource){
+    public RepositoryMain(SQLMapper<C, T, F> mapper, DataSource dataSource){
         this.mapper = mapper;
         this.dataSource = dataSource;
     }

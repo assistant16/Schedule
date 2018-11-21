@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONObject;
 
 public class StudentServlet extends HttpServlet{
 
@@ -37,35 +38,55 @@ public class StudentServlet extends HttpServlet{
     @Override
     public void init(){
         ServletContext servletContext = getServletContext();
-        studentRepositoryMemory = (StudentRepositoryMemory) servletContext.getAttribute("studentRepositoryMemory");
-        this.mapper = (ObjectMapper) servletContext.getAttribute("objectMapper");
+        this.studentRepository = (Repository<Integer,Student, StudentFilter>) servletContext.getAttribute("studentRepository");
+        this.groupGroupRepository = (Repository<String, Group, GroupFilter>) servletContext.getAttribute("groupGroupRepository");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Student> students = studentRepositoryMemory.findAll();
-        req.setAttribute("students", studentRepositoryMemory.findAll());
+      //  List<Student> students = studentRepositoryMemory.findAll();
+        ObjectMapper mapper = new ObjectMapper();
+        String sortByName = req.getParameter("sortByName");
+        String sortBySurname = req.getParameter("sortBySurname");
+        String sortByGroup = req.getParameter("sortByGroup");
+        StudentFilter studentFilter = new StudentFilter();
+        if (sortByName != null)
+            studentFilter.setName(sortByName);
+        if (sortBySurname != null)
+            studentFilter.setSurname(sortBySurname);
+        if (sortByGroup != null)
+            studentFilter.setGroupNumber(sortByGroup);
+        req.setAttribute("students", this.studentRepository.findAll(studentFilter));
+       // req.setAttribute("students", studentRepositoryMemory.findAll());
 
-        if("".equals(req.getParameter("json"))) {
-            resp.setContentType("application/json");
+//        if("".equals(req.getParameter("json"))) {
+//            resp.setContentType("application/json");
+//
+//            PrintWriter pw = resp.getWriter();
+//            pw.print(toJson(students));
+//            pw.close();
+//        } else {
+//            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/student.jsp");
+//            dispatcher.forward(req, resp);
+//        }
 
-            PrintWriter pw = resp.getWriter();
-            pw.print(toJson(students));
-            pw.close();
-        } else {
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/student.jsp");
-            dispatcher.forward(req, resp);
-        }
 
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String firstName = req.getParameter("firstName");
-        String secondName = req.getParameter("lastName");
-        String groupNumber = req.getParameter("groupNumber");
-        Student student = new Student(firstName, secondName);
-        studentRepositoryMemory.create(student);
+        StringBuilder sb = (StringBuilder) req.getAttribute("strPost");
+        JSONObject jsonObject = new JSONObject(sb.toString());
+        Student st = new Student(jsonObject.getString("firstName"),
+                jsonObject.getString("secondName"),
+                groupRepository.findGroupById(jsonObject.getString("groupNumber")));
+        this.studentRepository.create(st);
+
+//        String firstName = req.getParameter("firstName");
+////        String secondName = req.getParameter("lastName");
+////        String groupNumber = req.getParameter("groupNumber");
+////        Student student = new Student(firstName, secondName);
+////        studentRepositoryMemory.create(student);
         doGet(req,resp);
     }
 

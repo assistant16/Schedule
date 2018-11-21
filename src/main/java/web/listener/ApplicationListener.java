@@ -1,7 +1,7 @@
 package web.listener;
 
 
-import Repository.RepositoryDB;
+import Repository.RepositoryMain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import filter.GroupFilter;
 import filter.StudentFilter;
@@ -21,13 +21,12 @@ import javax.servlet.ServletContextListener;
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 public class ApplicationListener implements ServletContextListener {
 
-    private RepositoryDB<Integer,Student, StudentFilter> studentRepository;
-    private RepositoryDB<String, Group, GroupFilter> groupRepository;
+    private RepositoryMain<Integer,Student, StudentFilter> studentRepository;
+    private RepositoryMain<String, Group, GroupFilter> groupRepository;
 
     private StudentRepositoryMemory studentRepositoryMemory;
     private GroupRepository groupRepositoryMemory;
@@ -36,7 +35,7 @@ public class ApplicationListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         DataSource dataSource = dataSource();
         ServletContext servletContext = servletContextEvent.getServletContext();
-        this.studentRepository = new RepositoryDB<Integer, Student, StudentFilter>(new StudentSQLMapper(),dataSource);
+        this.studentRepository = new RepositoryMain<Integer, Student, StudentFilter>(new StudentSQLMapper(),dataSource);
         servletContext.setAttribute("studentRepository",studentRepository);
 //            ServletContext servletContext = servletContextEvent.getServletContext();
 //            String studentPath = properties.getProperty("student.file.path");
@@ -56,7 +55,7 @@ public class ApplicationListener implements ServletContextListener {
         try {
             Context initialContext = new InitialContext();
             Context eContext = (Context) initialContext.lookup("java:/comp/env");
-            DataSource dataSource = (DataSource) eContext.lookup("jdbc/schedule");
+            DataSource dataSource = (DataSource) eContext.lookup("jdbc/Schedule");
             return dataSource;
         } catch (NamingException e) {
             throw new RuntimeException(e);

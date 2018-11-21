@@ -1,5 +1,6 @@
 package studentModule;
 
+import Repository.SQLHelper;
 import Repository.SQLMapper;
 import filter.StudentFilter;
 import groupModule.Group;
@@ -28,19 +29,25 @@ public class StudentSQLMapper implements SQLMapper<Integer,Student, StudentFilte
     @Override
     public List<Student> getData(Connection connection, StudentFilter studentFilter) throws SQLException {
         List<Student> students = new ArrayList<>();
-        String sql = "SELECT schedule.student.ID, " +
-                "schedule.student.firstName, " +
-                "schedule.student.lastName, " +
-                "schedule.student.AVG_MARK AS 'STUDENT_AVG', " +
-                "schedule.student.GROUP_groupNumber, " +
-                "schedule.group.AVG_MARK  AS 'GROUP_AVG' " +
-                "FROM BEGANSS.STUDENT AS ST JOIN BEGANSS.GROUP AS GR ON ST.GROUP_NUMBER = GR.GROUP_NUMBER " +
-                "WHERE ST.FIRST_NAME LIKE ? " +
-                "AND ST.SECOND_NAME LIKE  ? AND GR.GROUP_NUMBER LIKE ?;";
-        PreparedStatement statement =connection.prepareStatement(sql);
-        statement.setString(1,studentFilter.getName() + "%" );
-        statement.setString(2,studentFilter.getSurname() + "%");
-        statement.setString(3, studentFilter.getGroupNumber() + "%");
+        List<String> params = new ArrayList<>();
+
+        String sql = "SELECT ST.ID, " +
+                "ST.firstName, " +
+                "ST.lastName, " +
+                "ST.AVG_MARK AS 'STUDENT_AVG', " +
+                "ST.GROUP_groupNumber, " +
+                "GR.AVG_MARK  AS 'GROUP_AVG' " +
+                "FROM schedule.student AS ST JOIN schedule.group AS GR ON ST.GROUP_groupNumber = GR.groupNumber " +
+                "WHERE " +
+                SQLHelper.addLike(params, "ST.firstName", studentFilter.getName(), " AND ") +
+                SQLHelper.addLike(params, "ST.lastName", studentFilter.getSurname(), " AND ") +
+                SQLHelper.addLike(params, "GR.groupNumber", studentFilter.getGroupNumber(), " AND ") +
+                "1=1";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        SQLHelper.setParams(statement,params);
+
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()){
             Student student = fillStudent(resultSet);
@@ -55,7 +62,18 @@ public class StudentSQLMapper implements SQLMapper<Integer,Student, StudentFilte
 
     @Override
     public void createData(Connection connection, Student item) throws SQLException {
-
+        String sql = "INSERT INTO schedule.student(firstName, lastName, AVG_MARK, GROUP_groupNumber) VALUES (?,?,?,?);";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, item.getFirstName());
+        statement.setString(2, item.getLastName());
+        statement.setString(3, item.getAvgMark());
+        statement.setString(4, String.valueOf(item.getGroup()));
+        statement.executeUpdate();
+        sql = "SELECT MAX(schedule.student.ID) AS 'STUDENT_ID' FROM schedule.student;";
+        ResultSet rs = statement.executeQuery(sql);
+        if (rs.next()) {
+            item.setId(rs.getInt("STUDENT_ID"));
+        }
     }
 
     @Override

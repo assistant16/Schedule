@@ -5,7 +5,7 @@ import groupModule.GroupRepository;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class StudentRepositoryMemory implements StudentRepository{
+public class StudentRepositoryMemory {
 
     private final Map<String,Student> STUDENTS = new LinkedHashMap<>();
     private GroupRepository groupRepository;
@@ -28,7 +28,7 @@ public class StudentRepositoryMemory implements StudentRepository{
 //        return new ArrayList<>(STUDENTS.values());
 //    }
 
-    @Override
+
     public Student create(Student student){
         String id = UUID.randomUUID().toString();
         student.setId(Integer.parseInt(id));

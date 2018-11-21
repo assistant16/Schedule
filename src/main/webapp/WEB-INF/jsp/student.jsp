@@ -34,6 +34,33 @@
     <tbody id="tbody"></tbody>
 </table>
 
+<table class="table">
+    <thead>
+    <tr>
+        <th>First name</th>
+        <th>Second name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach items="${students}" var="student">
+        <tr>
+            <td>${student.firstName}</td>
+            <td>${student.secondName}</td>
+        </tr>
+    </c:forEach>
+    </tbody>
+</table>
+<table>
+    <thead>
+    <tr>
+        <th>First name </th>
+        <th>Second name </th>
+
+    </tr>
+    </thead>
+    <tbody id="tbody1"></tbody>
+</table>
+
 <script type="text/javascript">
 
     var xhr = new XMLHttpRequest();

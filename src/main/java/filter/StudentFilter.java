@@ -1,7 +1,5 @@
 package filter;
 
-import com.sun.xml.internal.ws.api.ha.StickyFeature;
-
 public class StudentFilter {
     private String name;
     private String surname;
