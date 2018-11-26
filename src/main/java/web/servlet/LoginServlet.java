@@ -33,7 +33,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)	throws ServletException, IOException {
         String name = req.getParameter("name");
         String pass = req.getParameter("pass");
-        UserRepository userRepository = new UserRepository();
         User user = this.userRepository.LogIn(name,pass);
         if(user!=null){
             HttpSession session = req.getSession();
